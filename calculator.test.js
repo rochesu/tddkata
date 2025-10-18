@@ -4,3 +4,6 @@ const { add } = require('./calculator.js');
 test('return 0 for empty string input', () => {
 	expect(add("")).toBe(0);
 });
+test('return 0 for string input with no number', () => {
+	expect(add("sum")).toBe(0);
+});
