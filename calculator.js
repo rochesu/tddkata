@@ -6,6 +6,9 @@ function add(input_string) {
 	} else {
 		let numbers = number_string_array.map(Number);
 		if (numbers.length === 1) { return numbers[0]; }
+		let added_value = 0;
+		added_value = numbers.reduce((sum, n) => sum + n, 0);
+		return added_value;
 	}
 }
 
