@@ -3,6 +3,9 @@ function add(input_string) {
 	let number_string_array = input_string.match(/\d+/g);
 	if (number_string_array === null) {
 		return 0;
+	} else {
+		let numbers = number_string_array.map(Number);
+		if (numbers.length === 1) { return numbers[0]; }
 	}
 }
 
