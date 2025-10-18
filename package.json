@@ -1,0 +1,30 @@
+{
+  "name": "tddkata",
+  "version": "1.0.0",
+  "description": "A string calculator for adding numbers\"",
+  "keywords": [
+    "node",
+    "utility",
+    "helper",
+    "calculator",
+    "string"
+  ],
+  "homepage": "https://github.com/rochesu/tddkata#readme",
+  "bugs": {
+    "url": "https://github.com/rochesu/tddkata/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rochesu/tddkata.git"
+  },
+  "license": "ISC",
+  "author": "rochesu",
+  "type": "commonjs",
+  "main": "calculator.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "devDependencies": {
+    "jest": "^30.2.0"
+  }
+}
