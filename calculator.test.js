@@ -32,3 +32,26 @@ test('return added value for n numbers and text input separated by comma', () =>
 	expect(add("sum this 5,3,2,40")).toBe(50);
 });
 
+/* These should return added values of n numbers delimited by space as input */
+test('return added value for n numbers input separated by comma', () => {
+	expect(add("11 19 10 20")).toBe(60);
+});
+test('return added value for n numbers and text input separated by comma', () => {
+	expect(add("sum this 11 19 10 20 and give me value")).toBe(60);
+});
+
+/* These should return added values of n numbers delimited by underscore as input */
+test('return added value for n numbers input separated by comma', () => {
+	expect(add("11_19_10_20")).toBe(60);
+});
+test('return added value for n numbers and text input separated by comma', () => {
+	expect(add("sum this 11_19_10_20 and give me value")).toBe(60);
+});
+
+/* These should return added values of n numbers delimited by semicolon as input */
+test('return added value for n numbers input separated by comma', () => {
+	expect(add("11;19;10;20")).toBe(60);
+});
+test('return added value for n numbers and text input separated by comma', () => {
+	expect(add("sum this 11;19;10;20 and give me value")).toBe(60);
+});
