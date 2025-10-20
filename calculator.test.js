@@ -63,3 +63,11 @@ test('return added value for n numbers input separated by space, comma, undersco
 test('return added value for n numbers and text input separated by space, comma, underscore and/or semicolon', () => {
 	expect(add("sum this and give me the value 10_2;3 5 5;10")).toBe(35);
 });
+
+/* These should throw an exception with a message that includes comma separated list of negative numbers from the input */
+test('return one negative number exception', () => {
+	expect(() => add("10 -5 10")).toThrow('Negative numbers not allowed -5')
+});
+test('return one negative number exception', () => {
+	expect(() => add("sum this 10 -5 10")).toThrow('Negative numbers not allowed -5')
+});
