@@ -65,9 +65,21 @@ test('return added value for n numbers and text input separated by space, comma,
 });
 
 /* These should throw an exception with a message that includes comma separated list of negative numbers from the input */
-test('return one negative number exception', () => {
+test('return one negative number exception for number input', () => {
 	expect(() => add("10 -5 10")).toThrow('Negative numbers not allowed -5')
 });
-test('return one negative number exception', () => {
+test('return one negative number exception for number and text input', () => {
 	expect(() => add("sum this 10 -5 10")).toThrow('Negative numbers not allowed -5')
+});
+test('return n negative number exception for numbers input', () => {
+	expect(() => add("10 -5 -20 10")).toThrow('Negative numbers not allowed -5,-20')
+});
+test('return n negative number exception for numbers and text input', () => {
+	expect(() => add("sum this 10 -5 -20 10")).toThrow('Negative numbers not allowed -5,-20')
+});
+test('return n negative number exception for numbers input with comma, space, underscore, semicolon delimited string', () => {
+	expect(() => add("10_-5,-20/10 -30")).toThrow('Negative numbers not allowed -5,-20,-30')
+});
+test('return n negative number exception for numbers and text input with comma, space, underscore, semicolon delimited string', () => {
+	expect(() => add("sum this 10_-5,-20/10 -30")).toThrow('Negative numbers not allowed -5,-20,-30')
 });
