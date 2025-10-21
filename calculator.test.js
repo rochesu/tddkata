@@ -111,8 +111,8 @@ test('29 return added value for n numbers input with a user specified delimiter 
 test('30 return added value for n numbers input with a user specified delimiter (|)', () => {
 	expect(add("//|\n5|2|10")).toBe(17)
 });
-test('31return exception for multiple delimiter', () => {
-	expect(() => add("//;\n//-\n5,15,10")).toThrow("Multiple delimiters found //; //-")
+test('31 return exception for multiple delimiter', () => {
+	expect(() => add("//;\n//-\n5,15,10")).toThrow("Multiple delimiter definitions found. Only one delimiter definition allowed. Example \\; followed by <enter> key and numbers")
 });
 test('32 return exception for missing delimiter', () => {
 	expect(() => add("//\n5,15,10")).toThrow("Delimiter could not be deciphered. Expected something like //; followed by <enter> key for numbers. Ensure you provided a delimited and avoid delimiting with forward or backward slash.")
@@ -121,14 +121,31 @@ test('33 return exception for delimiter with additional forward slash', () => {
 	expect(() => add("///+\n5+15+10")).toThrow("Delimiter could not be deciphered. Expected something like //; followed by <enter> key for numbers. Ensure you provided a delimited and avoid delimiting with forward or backward slash.")
 });
 test('34 return exception for delimiter with additional two forward slash', () => {
-	expect(() => add("////+\n5+15+10")).toThrow("Delimiter could not be deciphered. Expected something like //; followed by <enter> key for numbers. Ensure you provided a delimited and avoid delimiting with forward or backward slash.")
+	expect(() => add("////+\n5+15+10")).toThrow("Multiple delimiter definitions found. Only one delimiter definition allowed. Example \\; followed by <enter> key and numbers")
 });
 test('35 return exception for delimiter with additional five forward slash', () => {
-	expect(() => add("///////+\n5+15+10")).toThrow("Delimiter could not be deciphered. Expected something like //; followed by <enter> key for numbers. Ensure you provided a delimited and avoid delimiting with forward or backward slash.")
+	expect(() => add("///////+\n5+15+10")).toThrow("Multiple delimiter definitions found. Only one delimiter definition allowed. Example \\; followed by <enter> key and numbers")
 });
 test('36 return added value for n numbers input with a user specified delimiter using special character (TAB)', () => {
 	expect(() => add("//\t\n5\t15\t10")).toThrow("Delimiter could not be deciphered. Expected something like //; followed by <enter> key for numbers. Ensure you provided a delimited and avoid delimiting with forward or backward slash.")
 });
 test('37 return added value for n numbers input with a user specified delimiter using special character (LINEFEED)', () => {
 	expect(() => add("//\n\n5\n15\n10")).toThrow("Delimiter could not be deciphered. Expected something like //; followed by <enter> key for numbers. Ensure you provided a delimited and avoid delimiting with forward or backward slash.")
+});
+
+/* Additional debugging test with random string */
+test('38 return exception for multiple delimiter without enter (LF) for both delimiter definition', () => {
+	expect(() => add("//;//+5+15+10")).toThrow("Multiple delimiter definitions found. Only one delimiter definition allowed. Example \\; followed by <enter> key and numbers")
+});
+test('39 return exception for multiple delimiter without enter (LF) for first delimiter definition', () => {
+	expect(() => add("//;//+\n5+15+10")).toThrow("Multiple delimiter definitions found. Only one delimiter definition allowed. Example \\; followed by <enter> key and numbers")
+});
+test('40 return exception for multiple delimiter without enter (LF) for second delimiter definition', () => {
+	expect(() => add("//;\n//+5+15+10")).toThrow("Multiple delimiter definitions found. Only one delimiter definition allowed. Example \\; followed by <enter> key and numbers")
+});
+test('41 return exception for multiple delimiter with enter (LF) for both delimiter definition', () => {
+	expect(() => add("//;\n//+\n5+15+10")).toThrow("Multiple delimiter definitions found. Only one delimiter definition allowed. Example \\; followed by <enter> key and numbers")
+});
+test('42 return exception for multiple delimiters', () => {
+	expect(() => add("//;\n//+\n//_\n//$\n5+15+10")).toThrow("Multiple delimiter definitions found. Only one delimiter definition allowed. Example \\; followed by <enter> key and numbers")
 });

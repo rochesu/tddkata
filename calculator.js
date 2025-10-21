@@ -7,21 +7,24 @@ function add(input_string) {
 	// If the input is blank, return 0 as value
 	if (input_string === "" || input_string.length === 0) { return_value = 0; }
 	// Check if the input specifies a delimiter by checking if there is double forward slash (//)
-	let is_delimited = input_string.match(/(\/\/)(.+)?\n/gm);
+	let is_delimited = input_string.match(/(\/\/)/gm);
 	if (is_delimited) {
-		// if there is only one delimiter, proceed, else throw exception for multiple delimiter
-		if (is_delimited.length === 1) {
-			let is_delimited_groups = is_delimited[0].match(/(\/\/)(.+)?\n/);
-			// if the delimiter character is present, procced, else throw exception for missing delimiter character
-			// if the delimiter character has forward or backward slash, throw exception, else proceed to convert the string to a comma separated list
-			if (!is_delimited_groups[1] || !is_delimited_groups[2] || is_delimited_groups[2].match(/\//) || is_delimited_groups[2].match(/[\t\n\r\f\v]/)) {
-				throw new Error("Delimiter could not be deciphered. Expected something like //; followed by <enter> key for numbers. Ensure you provided a delimited and avoid delimiting with forward or backward slash.");
-			}
-			input_string = input_string.replace(new RegExp(is_delimited_groups[1], 'g'), '');
-			input_string = input_string.replace(new RegExp(regexEscape(is_delimited_groups[2]), 'g'), ',');
-		} else {
-			throw new Error("Multiple delimiters found " + is_delimited.join(" ").replace(/\n/gm, ''));
+		// if there are more than one delimiter definition, throw exception as multiple delimiter is not allowed 
+		if (is_delimited.length > 1) {
+			throw new Error("Multiple delimiter definitions found. Only one delimiter definition allowed. Example \\; followed by <enter> key and numbers");
 		}
+		is_delimited = input_string.match(/(\/\/)(.+)?\n/gm);
+		if (!is_delimited) {
+			throw new Error("Malformed delimiter definition. Correct example \\; followed by <enter> key and numbers");
+		}
+		let is_delimited_groups = is_delimited[0].match(/(\/\/)(.+)?\n/);
+		// if the delimiter character is present, procced, else throw exception for missing delimiter character
+		// if the delimiter character has forward or backward slash, throw exception, else proceed to convert the string to a comma separated list
+		if (!is_delimited_groups[1] || !is_delimited_groups[2] || is_delimited_groups[2].match(/\//) || is_delimited_groups[2].match(/[\t\n\r\f\v]/)) {
+			throw new Error("Delimiter could not be deciphered. Expected something like //; followed by <enter> key for numbers. Ensure you provided a delimited and avoid delimiting with forward or backward slash.");
+		}
+		input_string = input_string.replace(new RegExp(is_delimited_groups[1], 'g'), '');
+		input_string = input_string.replace(new RegExp(regexEscape(is_delimited_groups[2]), 'g'), ',');
 	}
 	// pick out the numbers from the string into a number array
 	let number_string_array = input_string.match(/-?\d+(\.\d+)?/gm);
