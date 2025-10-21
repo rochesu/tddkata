@@ -13,6 +13,9 @@ function add(input_string) {
 		if (is_delimited.length > 1) {
 			throw new Error("Multiple delimiter definitions found. Only one delimiter definition allowed. Example \\; followed by <enter> key and numbers");
 		}
+		if (!input_string.match(/^\/\//)) {
+			throw new Error("Delimiter detected but not at the start of the string. Correct example \\; followed by <enter> key and numbers");
+		}
 		is_delimited = input_string.match(/(\/\/)(.+)?\n/gm);
 		if (!is_delimited) {
 			throw new Error("Malformed delimiter definition. Correct example \\; followed by <enter> key and numbers");
@@ -24,7 +27,6 @@ function add(input_string) {
 			throw new Error("Delimiter could not be deciphered. Expected something like //; followed by <enter> key for numbers. Ensure you provided a delimited and avoid delimiting with forward or backward slash.");
 		}
 		input_string = input_string.replace(new RegExp(regexEscape(is_delimited_groups[0]), 'g'), '');
-		input_string = input_string.replace(new RegExp(regexEscape(is_delimited_groups[2]), 'g'), ',');
 		input_string = input_string.replace(new RegExp(regexEscape(is_delimited_groups[2]), 'g'), ',');
 		input_string = input_string.replace(/[a-z]*\s*/g, '');
 		if (!input_string.match(/^\d+(\.\d+)?(?:,\d+(\.\d+)?)*$/)) {

@@ -153,5 +153,25 @@ test('43 return exception for wrong delimiter used in numbers', () => {
 	expect(() => add("//;\n5;15+10")).toThrow("Delimiter is valid, but the entered string seems to be malformed. Correct example would be //; followed by <enter> key and numbers separated by the same delimiter 5;3;1")
 });
 test('44 return exception for wrong delimiter used in numbers with some text preceeding it', () => {
-	expect(() => add("sum //;\n5;15+10")).toThrow("Delimiter is valid, but the entered string seems to be malformed. Correct example would be //; followed by <enter> key and numbers separated by the same delimiter 5;3;1")
+	expect(() => add("sum //;\n5;15+10")).toThrow("Delimiter detected but not at the start of the string. Correct example \\; followed by <enter> key and numbers")
+});
+
+/* More additional debugging tests with delimiter at end of string or middle of string */
+test('45 return exception for delimiter at end of string', () => {
+	expect(() => add("5+15+10//+\n")).toThrow("Delimiter detected but not at the start of the string. Correct example \\; followed by <enter> key and numbers")
+});
+test('46 return exception for delimiter at end of string', () => {
+	expect(() => add("5+15+10\n//+\n")).toThrow("Delimiter detected but not at the start of the string. Correct example \\; followed by <enter> key and numbers")
+});
+test('47 return exception for delimiter at end of string', () => {
+	expect(() => add("5+15+10\n//+")).toThrow("Delimiter detected but not at the start of the string. Correct example \\; followed by <enter> key and numbers")
+});
+test('48 return exception for delimiter in the middle of the string', () => {
+	expect(() => add("5+15//+\n10")).toThrow("Delimiter detected but not at the start of the string. Correct example \\; followed by <enter> key and numbers")
+});
+test('49 return exception for multiple delimiter in the middle of the string', () => {
+	expect(() => add("5//;\n15//+\n10")).toThrow("Multiple delimiter definitions found. Only one delimiter definition allowed. Example \\; followed by <enter> key and numbers")
+});
+test('50 return exception for multiple delimiter at the end of the string', () => {
+	expect(() => add("5;15;10//;\n//+\n")).toThrow("Multiple delimiter definitions found. Only one delimiter definition allowed. Example \\; followed by <enter> key and numbers")
 });
