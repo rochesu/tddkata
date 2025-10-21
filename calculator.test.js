@@ -115,14 +115,20 @@ test('31return exception for multiple delimiter', () => {
 	expect(() => add("//;\n//-\n5,15,10")).toThrow("Multiple delimiters found //; //-")
 });
 test('32 return exception for missing delimiter', () => {
-	expect(() => add("//\n5,15,10")).toThrow("Delimiter could not be deciphered. Expected something like //; followed by <enter> key for numbers but got //undefined")
+	expect(() => add("//\n5,15,10")).toThrow("Delimiter could not be deciphered. Expected something like //; followed by <enter> key for numbers. Ensure you provided a delimited and avoid delimiting with forward or backward slash.")
 });
 test('33 return exception for delimiter with additional forward slash', () => {
-	expect(() => add("///+\n5+15+10")).toThrow("Delimiter could not be deciphered. Expected //+ but got ///+")
+	expect(() => add("///+\n5+15+10")).toThrow("Delimiter could not be deciphered. Expected something like //; followed by <enter> key for numbers. Ensure you provided a delimited and avoid delimiting with forward or backward slash.")
 });
 test('34 return exception for delimiter with additional two forward slash', () => {
-	expect(() => add("////+\n5+15+10")).toThrow("Delimiter could not be deciphered. Expected //+ but got ////+")
+	expect(() => add("////+\n5+15+10")).toThrow("Delimiter could not be deciphered. Expected something like //; followed by <enter> key for numbers. Ensure you provided a delimited and avoid delimiting with forward or backward slash.")
 });
 test('35 return exception for delimiter with additional five forward slash', () => {
-	expect(() => add("///////+\n5+15+10")).toThrow("Delimiter could not be deciphered. Expected //+ but got ///////+")
+	expect(() => add("///////+\n5+15+10")).toThrow("Delimiter could not be deciphered. Expected something like //; followed by <enter> key for numbers. Ensure you provided a delimited and avoid delimiting with forward or backward slash.")
+});
+test('36 return added value for n numbers input with a user specified delimiter using special character (TAB)', () => {
+	expect(() => add("//\t\n5\t15\t10")).toThrow("Delimiter could not be deciphered. Expected something like //; followed by <enter> key for numbers. Ensure you provided a delimited and avoid delimiting with forward or backward slash.")
+});
+test('37 return added value for n numbers input with a user specified delimiter using special character (LINEFEED)', () => {
+	expect(() => add("//\n\n5\n15\n10")).toThrow("Delimiter could not be deciphered. Expected something like //; followed by <enter> key for numbers. Ensure you provided a delimited and avoid delimiting with forward or backward slash.")
 });
