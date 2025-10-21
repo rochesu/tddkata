@@ -23,8 +23,13 @@ function add(input_string) {
 		if (!is_delimited_groups[1] || !is_delimited_groups[2] || is_delimited_groups[2].match(/\//) || is_delimited_groups[2].match(/[\t\n\r\f\v]/)) {
 			throw new Error("Delimiter could not be deciphered. Expected something like //; followed by <enter> key for numbers. Ensure you provided a delimited and avoid delimiting with forward or backward slash.");
 		}
-		input_string = input_string.replace(new RegExp(is_delimited_groups[1], 'g'), '');
+		input_string = input_string.replace(new RegExp(regexEscape(is_delimited_groups[0]), 'g'), '');
 		input_string = input_string.replace(new RegExp(regexEscape(is_delimited_groups[2]), 'g'), ',');
+		input_string = input_string.replace(new RegExp(regexEscape(is_delimited_groups[2]), 'g'), ',');
+		input_string = input_string.replace(/[a-z]*\s*/g, '');
+		if (!input_string.match(/^\d+(\.\d+)?(?:,\d+(\.\d+)?)*$/)) {
+			throw new Error("Delimiter is valid, but the entered string seems to be malformed. Correct example would be //; followed by <enter> key and numbers separated by the same delimiter 5;3;1");
+		}
 	}
 	// pick out the numbers from the string into a number array
 	let number_string_array = input_string.match(/-?\d+(\.\d+)?/gm);

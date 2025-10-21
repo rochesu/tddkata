@@ -133,7 +133,7 @@ test('37 return added value for n numbers input with a user specified delimiter 
 	expect(() => add("//\n\n5\n15\n10")).toThrow("Delimiter could not be deciphered. Expected something like //; followed by <enter> key for numbers. Ensure you provided a delimited and avoid delimiting with forward or backward slash.")
 });
 
-/* Additional debugging test with random string */
+/* Additional debugging tests with random string */
 test('38 return exception for multiple delimiter without enter (LF) for both delimiter definition', () => {
 	expect(() => add("//;//+5+15+10")).toThrow("Multiple delimiter definitions found. Only one delimiter definition allowed. Example \\; followed by <enter> key and numbers")
 });
@@ -148,4 +148,10 @@ test('41 return exception for multiple delimiter with enter (LF) for both delimi
 });
 test('42 return exception for multiple delimiters', () => {
 	expect(() => add("//;\n//+\n//_\n//$\n5+15+10")).toThrow("Multiple delimiter definitions found. Only one delimiter definition allowed. Example \\; followed by <enter> key and numbers")
+});
+test('43 return exception for wrong delimiter used in numbers', () => {
+	expect(() => add("//;\n5;15+10")).toThrow("Delimiter is valid, but the entered string seems to be malformed. Correct example would be //; followed by <enter> key and numbers separated by the same delimiter 5;3;1")
+});
+test('44 return exception for wrong delimiter used in numbers with some text preceeding it', () => {
+	expect(() => add("sum //;\n5;15+10")).toThrow("Delimiter is valid, but the entered string seems to be malformed. Correct example would be //; followed by <enter> key and numbers separated by the same delimiter 5;3;1")
 });
