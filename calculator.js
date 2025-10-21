@@ -7,7 +7,7 @@ function add(input_string) {
 			if (is_delimited_groups[1]  && is_delimited_groups[2]) {
 				if (!is_delimited_groups[2].match(/\//)) {
 					input_string = input_string.replace(new RegExp(is_delimited_groups[1], 'g'), '');
-					input_string = input_string.replace(new RegExp(is_delimited_groups[2], 'g'), ',');
+					input_string = input_string.replace(new RegExp(regexEscape(is_delimited_groups[2]), 'g'), ',');
 				} else {
 					throw new Error("Delimiter could not be deciphered. Expected //" + is_delimited_groups[2].replace(/\//g, '') + " but got " + is_delimited_groups[1] + is_delimited_groups[2]);
 				}
@@ -33,6 +33,20 @@ function add(input_string) {
 		added_value = numbers.reduce((sum, n) => sum + n, 0);
 		return added_value;
 	}
+}
+
+function regexEscape(in_str) {
+	let special_chars = ['^', '$', '\\', '.', '*', '+', '?', '(', ')', '[', ']', '{', '}', '|'];
+	let in_str_arr = in_str.split('');
+	let out_str = '';
+	in_str_arr.forEach(item => {
+		if (special_chars.includes(item)) {
+			out_str = out_str + '\\' + item; 
+		} else {
+			out_str = out_str + item;
+		}
+	});
+	return out_str;
 }
 
 module.exports = { add }
