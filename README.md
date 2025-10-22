@@ -4,6 +4,8 @@ The string input should be restricted to 100 number of numbers, with each number
 The limit on number of numbers and value of number is to ensure calculations never reach the big number state. 
 Although the biggest number JavaScript can handle is much greater than this limit of 100 x 1000 = 100,000, but that requires a slightly modified implementation of this solution.
 
+Codebase used: JavaScript and Jest
+
 ## Features
 - Sum is 0 if the input string has no numbers.
 - Sum is the same number entered if the input string has only one number.
