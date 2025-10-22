@@ -1,177 +1,248 @@
 const { add } = require('./calculator.js');
 
-/* These should return 0 when string is empty or doesn't have numbers */
-test('01 return 0 for empty string input', () => {
-	expect(add("")).toBe(0);
-});
-test('02 return 0 for string input with no number', () => {
-	expect(add("sum")).toBe(0);
+describe('Basic operations', () => {
+	/* These should return 0 when string is empty or doesn't have numbers */
+	test('01 return 0 for empty string input', () => {
+		expect(add("")).toBe(0);
+	});
+	test('02 return 0 for string input with no number', () => {
+		expect(add("sum")).toBe(0);
+	});
+
+	/* These should return the same one number sent in input */
+	test('03 return same number for single number input', () => {
+		expect(add("1")).toBe(1);
+	});
+	test('04 return the same number for single number with text input', () => {
+		expect(add("sum 5")).toBe(5);
+	});
+
+	/* These should return added values of 2 numbers in input */
+	test('05 return added value for two number input, separated by comma', () => {
+		expect(add("1,2")).toBe(3);
+	});
+	test('06 return added value for two numbers with text input, separated by comma', () => {
+		expect(add("sum this 5,3")).toBe(8);
+	});
+
+	/* These should return added values of n numbers delimited by comma in input */
+	test('07 return added value for n numbers input separated by comma', () => {
+		expect(add("1,2,3,4")).toBe(10);
+	});
+	test('08 return added value for n numbers and text input separated by comma', () => {
+		expect(add("sum this 5,3,2,40")).toBe(50);
+	});
+
+	/* These should return added values of n numbers delimited by space in input */
+	test('09 return added value for n numbers input separated by space', () => {
+		expect(add("11 19 10 20")).toBe(60);
+	});
+	test('10 return added value for n numbers and text input separated by space', () => {
+		expect(add("sum this 11 19 10 20 and give me value")).toBe(60);
+	});
+
+	/* These should return added values of n numbers delimited by underscore in input */
+	test('11 return added value for n numbers input separated by underscore', () => {
+		expect(add("11_19_10_20")).toBe(60);
+	});
+	test('12 return added value for n numbers and text input separated by underscore', () => {
+		expect(add("sum this 11_19_10_20 and give me value")).toBe(60);
+	});
+
+	/* These should return added values of n numbers delimited by semicolon in input */
+	test('13 return added value for n numbers input separated by semicolon', () => {
+		expect(add("11;19;10;20")).toBe(60);
+	});
+	test('14 return added value for n numbers and text input separated by semicolon', () => {
+		expect(add("sum this 11;19;10;20 and give me value")).toBe(60);
+	});
+
+	/* These should return added values of n numbers delimited by line feed (LF) \n or carriage return line feed (CRLF) \r\n in input */
+	test('15 return added value for n numbers input separated by line feed \n', () => {
+		expect(add("15\n5\n35\n25")).toBe(80);
+	});
+	test('16 return added value for n numbers input separated by carriage return line feed \r\n', () => {
+		expect(add("15\r\n5\r\n35\r\n25")).toBe(80);
+	});
+	test('17 return added value for n numbers and text input separated by line feed \n', () => {
+		expect(add("sum this 15\n5\n35\n25 and give me value")).toBe(80);
+	});
+	test('18 return added value for n numbers and text input separated by carriage return line feed \r\n', () => {
+		expect(add("sum this 15\r\n5\r\n35\r\n25 and give me value")).toBe(80);
+	});
+
+	/* These should return added values of n numbers delimited by space comma underscore semicolon LF and CRLF in input */
+	test('19 return added value for n numbers input separated by space, comma, underscore, semicolon, LF (\n), CRLF (\r\n)', () => {
+		expect(add("10_2;3\n5 5\r\n10")).toBe(35);
+	});
+	test('20 return added value for n numbers and text input separated by space, comma, underscore, semicolon, LF (\n), CRLF (\r\n)', () => {
+		expect(add("sum this and give me the value 10_2;3\n5 5\r\n10")).toBe(35);
+	});
 });
 
-/* These should return the same one number sent in input */
-test('03 return same number for single number input', () => {
-	expect(add("1")).toBe(1);
-});
-test('04 return the same number for single number with text input', () => {
-	expect(add("sum 5")).toBe(5);
-});
-
-/* These should return added values of 2 numbers in input */
-test('05 return added value for two number input, separated by comma', () => {
-	expect(add("1,2")).toBe(3);
-});
-test('06 return added value for two numbers with text input, separated by comma', () => {
-	expect(add("sum this 5,3")).toBe(8);
-});
-
-/* These should return added values of n numbers delimited by comma in input */
-test('07 return added value for n numbers input separated by comma', () => {
-	expect(add("1,2,3,4")).toBe(10);
-});
-test('08 return added value for n numbers and text input separated by comma', () => {
-	expect(add("sum this 5,3,2,40")).toBe(50);
+describe('Handling negative numbers', () => {
+	/* These should throw an exception with a message that includes comma separated list of negative numbers from the input */
+	test('21 return one negative number exception for number input', () => {
+		expect(() => add("10 -5 10")).toThrow("Negative numbers not allowed -5")
+	});
+	test('22 return one negative number exception for number and text input', () => {
+		expect(() => add("sum this 10 -5 10")).toThrow("Negative numbers not allowed -5")
+	});
+	test('23 return n negative number exception for numbers input', () => {
+		expect(() => add("10 -5 -20 10")).toThrow("Negative numbers not allowed -5,-20")
+	});
+	test('24 return n negative number exception for numbers and text input', () => {
+		expect(() => add("sum this 10 -5 -20 10")).toThrow("Negative numbers not allowed -5,-20")
+	});
+	test('25 return n negative number exception for numbers input with comma, space, underscore, semicolon delimited string', () => {
+		expect(() => add("10_-5,-20/10 -30\n50\r\n-60")).toThrow("Negative numbers not allowed -5,-20,-30,-60")
+	});
+	test('26 return n negative number exception for numbers and text input with comma, space, underscore, semicolon delimited string', () => {
+		expect(() => add("sum this 10_-5,-20/10 -30\n50\r\n-60")).toThrow("Negative numbers not allowed -5,-20,-30,-60")
+	});
 });
 
-/* These should return added values of n numbers delimited by space in input */
-test('09 return added value for n numbers input separated by space', () => {
-	expect(add("11 19 10 20")).toBe(60);
-});
-test('10 return added value for n numbers and text input separated by space', () => {
-	expect(add("sum this 11 19 10 20 and give me value")).toBe(60);
+describe('Custom delimiter', () => {
+	/* These should return added value of n numbers with a user specified demiliter */
+	test('27 return added value for n numbers input with a user specified delimiter (;)', () => {
+		expect(add("//;\n5;2;10")).toBe(17)
+	});
+	test('28 return added value for n numbers input with a user specified delimiter (ADD)', () => {
+		expect(add("//ADD\n5ADD2ADD10")).toBe(17)
+	});
+	test('29 return added value for n numbers input with a user specified delimiter (+)', () => {
+		expect(add("//+\n5+2+10")).toBe(17)
+	});
+	test('30 return added value for n numbers input with a user specified delimiter (|)', () => {
+		expect(add("//|\n5|2|10")).toBe(17)
+	});
+	test('31 return exception for multiple delimiter', () => {
+		expect(() => add("//;\n//-\n5,15,10")).toThrow("Multiple delimiter definitions found. Only one delimiter definition allowed. Example \\; followed by <enter> key and numbers")
+	});
+	test('32 return exception for missing delimiter', () => {
+		expect(() => add("//\n5,15,10")).toThrow("Delimiter could not be deciphered. Expected something like //; followed by <enter> key for numbers. Ensure you provided a delimited and avoid delimiting with forward or backward slash.")
+	});
+	test('33 return exception for delimiter with additional forward slash', () => {
+		expect(() => add("///+\n5+15+10")).toThrow("Delimiter could not be deciphered. Expected something like //; followed by <enter> key for numbers. Ensure you provided a delimited and avoid delimiting with forward or backward slash.")
+	});
+	test('34 return exception for delimiter with additional two forward slash', () => {
+		expect(() => add("////+\n5+15+10")).toThrow("Multiple delimiter definitions found. Only one delimiter definition allowed. Example \\; followed by <enter> key and numbers")
+	});
+	test('35 return exception for delimiter with additional five forward slash', () => {
+		expect(() => add("///////+\n5+15+10")).toThrow("Multiple delimiter definitions found. Only one delimiter definition allowed. Example \\; followed by <enter> key and numbers")
+	});
+	test('36 return added value for n numbers input with a user specified delimiter using special character (TAB)', () => {
+		expect(() => add("//\t\n5\t15\t10")).toThrow("Delimiter could not be deciphered. Expected something like //; followed by <enter> key for numbers. Ensure you provided a delimited and avoid delimiting with forward or backward slash.")
+	});
+	test('37 return added value for n numbers input with a user specified delimiter using special character (LINEFEED)', () => {
+		expect(() => add("//\n\n5\n15\n10")).toThrow("Delimiter could not be deciphered. Expected something like //; followed by <enter> key for numbers. Ensure you provided a delimited and avoid delimiting with forward or backward slash.")
+	});
+
+	/* Additional debugging tests with random string */
+	test('38 return exception for multiple delimiter without enter (LF) for both delimiter definition', () => {
+		expect(() => add("//;//+5+15+10")).toThrow("Multiple delimiter definitions found. Only one delimiter definition allowed. Example \\; followed by <enter> key and numbers")
+	});
+	test('39 return exception for multiple delimiter without enter (LF) for first delimiter definition', () => {
+		expect(() => add("//;//+\n5+15+10")).toThrow("Multiple delimiter definitions found. Only one delimiter definition allowed. Example \\; followed by <enter> key and numbers")
+	});
+	test('40 return exception for multiple delimiter without enter (LF) for second delimiter definition', () => {
+		expect(() => add("//;\n//+5+15+10")).toThrow("Multiple delimiter definitions found. Only one delimiter definition allowed. Example \\; followed by <enter> key and numbers")
+	});
+	test('41 return exception for multiple delimiter with enter (LF) for both delimiter definition', () => {
+		expect(() => add("//;\n//+\n5+15+10")).toThrow("Multiple delimiter definitions found. Only one delimiter definition allowed. Example \\; followed by <enter> key and numbers")
+	});
+	test('42 return exception for multiple delimiters', () => {
+		expect(() => add("//;\n//+\n//_\n//$\n5+15+10")).toThrow("Multiple delimiter definitions found. Only one delimiter definition allowed. Example \\; followed by <enter> key and numbers")
+	});
+	test('43 return exception for wrong delimiter used in numbers', () => {
+		expect(() => add("//;\n5;15+10")).toThrow("Delimiter is valid, but the entered string seems to be malformed. Correct example would be //; followed by <enter> key and numbers separated by the same delimiter 5;3;1")
+	});
+	test('44 return exception for wrong delimiter used in numbers with some text preceeding it', () => {
+		expect(() => add("sum //;\n5;15+10")).toThrow("Delimiter detected but not at the start of the string. Correct example \\; followed by <enter> key and numbers")
+	});
+
+	/* More additional debugging tests with delimiter at end of string or middle of string */
+	test('45 return exception for delimiter at end of string', () => {
+		expect(() => add("5+15+10//+\n")).toThrow("Delimiter detected but not at the start of the string. Correct example \\; followed by <enter> key and numbers")
+	});
+	test('46 return exception for delimiter at end of string', () => {
+		expect(() => add("5+15+10\n//+\n")).toThrow("Delimiter detected but not at the start of the string. Correct example \\; followed by <enter> key and numbers")
+	});
+	test('47 return exception for delimiter at end of string', () => {
+		expect(() => add("5+15+10\n//+")).toThrow("Delimiter detected but not at the start of the string. Correct example \\; followed by <enter> key and numbers")
+	});
+	test('48 return exception for delimiter in the middle of the string', () => {
+		expect(() => add("5+15//+\n10")).toThrow("Delimiter detected but not at the start of the string. Correct example \\; followed by <enter> key and numbers")
+	});
+	test('49 return exception for multiple delimiter in the middle of the string', () => {
+		expect(() => add("5//;\n15//+\n10")).toThrow("Multiple delimiter definitions found. Only one delimiter definition allowed. Example \\; followed by <enter> key and numbers")
+	});
+	test('50 return exception for multiple delimiter at the end of the string', () => {
+		expect(() => add("5;15;10//;\n//+\n")).toThrow("Multiple delimiter definitions found. Only one delimiter definition allowed. Example \\; followed by <enter> key and numbers")
+	});
 });
 
-/* These should return added values of n numbers delimited by underscore in input */
-test('11 return added value for n numbers input separated by underscore', () => {
-	expect(add("11_19_10_20")).toBe(60);
-});
-test('12 return added value for n numbers and text input separated by underscore', () => {
-	expect(add("sum this 11_19_10_20 and give me value")).toBe(60);
+describe('Handling decimal numbers', () => {
+	/* Debugging tests to ensure numbers can be decimal and string can include spaces */
+	test('51 return added value for string of numbers which includes decimals', () => {
+		expect(add("5+5.2+5.3+5")).toBeCloseTo(20.5, 3)
+	});
+	test('52 return added value for string of numbers which includes decimals with delimiter', () => {
+		expect(add("//_\n5_5.2_5.3_5")).toBeCloseTo(20.5, 3)
+	});
+	test('53 return added value for string of numbers which includes decimals', () => {
+		expect(add("5\n5.2\n5.3\n5")).toBeCloseTo(20.5, 3)
+	});
+
+	/* More debugging tests to test custom delimiter */
+	test('54 return added value for string of numbers with custom delimiter of dash', () => {
+		expect(add("//-\n5-5.2-5.3-5")).toBeCloseTo(20.5, 3)
+	});
+	test('55 return added value for string of numbers with custom delimiter of hash', () => {
+		expect(add("//#\n5#5.2#5.3#5")).toBeCloseTo(20.5, 3)
+	});
+	test('56 return added value for string of numbers with custom delimiter of dollar', () => {
+		expect(add("//$\n5$5.2$5.3$5")).toBeCloseTo(20.5, 3)
+	});
+	test('57 return added value for string of numbers with custom delimiter of tilde', () => {
+		expect(add("//~\n5~5.2~5.3~5")).toBeCloseTo(20.5, 3)
+	});
+	test('58 return added value for string of numbers with custom delimiter of caret', () => {
+		expect(add("//^\n5^5.2^5.3^5")).toBeCloseTo(20.5, 3)
+	});
+	test('59 return added value for string of numbers with custom delimiter of equal', () => {
+		expect(add("//=\n5=5.2=5.3=5")).toBeCloseTo(20.5, 3)
+	});
+	test('60 return added value for string of numbers with custom delimiter of percent', () => {
+		expect(add("//%\n5%5.2%5.3%5")).toBeCloseTo(20.5, 3)
+	});
+	test('61 return added value for string of numbers with custom delimiter of at symbol', () => {
+		expect(add("//@\n5@5.2@5.3@5")).toBeCloseTo(20.5, 3)
+	});
+	test('62 return added value for string of numbers with custom delimiter of star', () => {
+		expect(add("//*\n5*5.2*5.3*5")).toBeCloseTo(20.5, 3)
+	});
+	test('63 return added value for string of numbers with custom delimiter of exclamation', () => {
+		expect(add("//!\n5!5.2!5.3!5")).toBeCloseTo(20.5, 3)
+	});
+	test('64 return added value for string of numbers with custom delimiter of pipe character', () => {
+		expect(add("//|\n5|5.2|5.3|5")).toBeCloseTo(20.5, 3)
+	});
+	test('65 return added value for string of numbers with custom delimiter of pipe character', () => {
+		expect(add("//||\n5||5.2||5.3||5")).toBeCloseTo(20.5, 3)
+	});
 });
 
-/* These should return added values of n numbers delimited by semicolon in input */
-test('13 return added value for n numbers input separated by semicolon', () => {
-	expect(add("11;19;10;20")).toBe(60);
-});
-test('14 return added value for n numbers and text input separated by semicolon', () => {
-	expect(add("sum this 11;19;10;20 and give me value")).toBe(60);
-});
-
-/* These should return added values of n numbers delimited by line feed (LF) \n or carriage return line feed (CRLF) \r\n in input */
-test('15 return added value for n numbers input separated by line feed \n', () => {
-	expect(add("15\n5\n35\n25")).toBe(80);
-});
-test('16 return added value for n numbers input separated by carriage return line feed \r\n', () => {
-	expect(add("15\r\n5\r\n35\r\n25")).toBe(80);
-});
-test('17 return added value for n numbers and text input separated by line feed \n', () => {
-	expect(add("sum this 15\n5\n35\n25 and give me value")).toBe(80);
-});
-test('18 return added value for n numbers and text input separated by carriage return line feed \r\n', () => {
-	expect(add("sum this 15\r\n5\r\n35\r\n25 and give me value")).toBe(80);
-});
-
-/* These should return added values of n numbers delimited by space comma underscore semicolon LF and CRLF in input */
-test('19 return added value for n numbers input separated by space, comma, underscore, semicolon, LF (\n), CRLF (\r\n)', () => {
-	expect(add("10_2;3\n5 5\r\n10")).toBe(35);
-});
-test('20 return added value for n numbers and text input separated by space, comma, underscore, semicolon, LF (\n), CRLF (\r\n)', () => {
-	expect(add("sum this and give me the value 10_2;3\n5 5\r\n10")).toBe(35);
-});
-
-/* These should throw an exception with a message that includes comma separated list of negative numbers from the input */
-test('21 return one negative number exception for number input', () => {
-	expect(() => add("10 -5 10")).toThrow("Negative numbers not allowed -5")
-});
-test('22 return one negative number exception for number and text input', () => {
-	expect(() => add("sum this 10 -5 10")).toThrow("Negative numbers not allowed -5")
-});
-test('23 return n negative number exception for numbers input', () => {
-	expect(() => add("10 -5 -20 10")).toThrow("Negative numbers not allowed -5,-20")
-});
-test('24 return n negative number exception for numbers and text input', () => {
-	expect(() => add("sum this 10 -5 -20 10")).toThrow("Negative numbers not allowed -5,-20")
-});
-test('25 return n negative number exception for numbers input with comma, space, underscore, semicolon delimited string', () => {
-	expect(() => add("10_-5,-20/10 -30\n50\r\n-60")).toThrow("Negative numbers not allowed -5,-20,-30,-60")
-});
-test('26 return n negative number exception for numbers and text input with comma, space, underscore, semicolon delimited string', () => {
-	expect(() => add("sum this 10_-5,-20/10 -30\n50\r\n-60")).toThrow("Negative numbers not allowed -5,-20,-30,-60")
-});
-
-/* These should return added value of n numbers with a user specified demiliter */
-test('27 return added value for n numbers input with a user specified delimiter (;)', () => {
-	expect(add("//;\n5;2;10")).toBe(17)
-});
-test('28 return added value for n numbers input with a user specified delimiter (ADD)', () => {
-	expect(add("//ADD\n5ADD2ADD10")).toBe(17)
-});
-test('29 return added value for n numbers input with a user specified delimiter (+)', () => {
-	expect(add("//+\n5+2+10")).toBe(17)
-});
-test('30 return added value for n numbers input with a user specified delimiter (|)', () => {
-	expect(add("//|\n5|2|10")).toBe(17)
-});
-test('31 return exception for multiple delimiter', () => {
-	expect(() => add("//;\n//-\n5,15,10")).toThrow("Multiple delimiter definitions found. Only one delimiter definition allowed. Example \\; followed by <enter> key and numbers")
-});
-test('32 return exception for missing delimiter', () => {
-	expect(() => add("//\n5,15,10")).toThrow("Delimiter could not be deciphered. Expected something like //; followed by <enter> key for numbers. Ensure you provided a delimited and avoid delimiting with forward or backward slash.")
-});
-test('33 return exception for delimiter with additional forward slash', () => {
-	expect(() => add("///+\n5+15+10")).toThrow("Delimiter could not be deciphered. Expected something like //; followed by <enter> key for numbers. Ensure you provided a delimited and avoid delimiting with forward or backward slash.")
-});
-test('34 return exception for delimiter with additional two forward slash', () => {
-	expect(() => add("////+\n5+15+10")).toThrow("Multiple delimiter definitions found. Only one delimiter definition allowed. Example \\; followed by <enter> key and numbers")
-});
-test('35 return exception for delimiter with additional five forward slash', () => {
-	expect(() => add("///////+\n5+15+10")).toThrow("Multiple delimiter definitions found. Only one delimiter definition allowed. Example \\; followed by <enter> key and numbers")
-});
-test('36 return added value for n numbers input with a user specified delimiter using special character (TAB)', () => {
-	expect(() => add("//\t\n5\t15\t10")).toThrow("Delimiter could not be deciphered. Expected something like //; followed by <enter> key for numbers. Ensure you provided a delimited and avoid delimiting with forward or backward slash.")
-});
-test('37 return added value for n numbers input with a user specified delimiter using special character (LINEFEED)', () => {
-	expect(() => add("//\n\n5\n15\n10")).toThrow("Delimiter could not be deciphered. Expected something like //; followed by <enter> key for numbers. Ensure you provided a delimited and avoid delimiting with forward or backward slash.")
-});
-
-/* Additional debugging tests with random string */
-test('38 return exception for multiple delimiter without enter (LF) for both delimiter definition', () => {
-	expect(() => add("//;//+5+15+10")).toThrow("Multiple delimiter definitions found. Only one delimiter definition allowed. Example \\; followed by <enter> key and numbers")
-});
-test('39 return exception for multiple delimiter without enter (LF) for first delimiter definition', () => {
-	expect(() => add("//;//+\n5+15+10")).toThrow("Multiple delimiter definitions found. Only one delimiter definition allowed. Example \\; followed by <enter> key and numbers")
-});
-test('40 return exception for multiple delimiter without enter (LF) for second delimiter definition', () => {
-	expect(() => add("//;\n//+5+15+10")).toThrow("Multiple delimiter definitions found. Only one delimiter definition allowed. Example \\; followed by <enter> key and numbers")
-});
-test('41 return exception for multiple delimiter with enter (LF) for both delimiter definition', () => {
-	expect(() => add("//;\n//+\n5+15+10")).toThrow("Multiple delimiter definitions found. Only one delimiter definition allowed. Example \\; followed by <enter> key and numbers")
-});
-test('42 return exception for multiple delimiters', () => {
-	expect(() => add("//;\n//+\n//_\n//$\n5+15+10")).toThrow("Multiple delimiter definitions found. Only one delimiter definition allowed. Example \\; followed by <enter> key and numbers")
-});
-test('43 return exception for wrong delimiter used in numbers', () => {
-	expect(() => add("//;\n5;15+10")).toThrow("Delimiter is valid, but the entered string seems to be malformed. Correct example would be //; followed by <enter> key and numbers separated by the same delimiter 5;3;1")
-});
-test('44 return exception for wrong delimiter used in numbers with some text preceeding it', () => {
-	expect(() => add("sum //;\n5;15+10")).toThrow("Delimiter detected but not at the start of the string. Correct example \\; followed by <enter> key and numbers")
-});
-
-/* More additional debugging tests with delimiter at end of string or middle of string */
-test('45 return exception for delimiter at end of string', () => {
-	expect(() => add("5+15+10//+\n")).toThrow("Delimiter detected but not at the start of the string. Correct example \\; followed by <enter> key and numbers")
-});
-test('46 return exception for delimiter at end of string', () => {
-	expect(() => add("5+15+10\n//+\n")).toThrow("Delimiter detected but not at the start of the string. Correct example \\; followed by <enter> key and numbers")
-});
-test('47 return exception for delimiter at end of string', () => {
-	expect(() => add("5+15+10\n//+")).toThrow("Delimiter detected but not at the start of the string. Correct example \\; followed by <enter> key and numbers")
-});
-test('48 return exception for delimiter in the middle of the string', () => {
-	expect(() => add("5+15//+\n10")).toThrow("Delimiter detected but not at the start of the string. Correct example \\; followed by <enter> key and numbers")
-});
-test('49 return exception for multiple delimiter in the middle of the string', () => {
-	expect(() => add("5//;\n15//+\n10")).toThrow("Multiple delimiter definitions found. Only one delimiter definition allowed. Example \\; followed by <enter> key and numbers")
-});
-test('50 return exception for multiple delimiter at the end of the string', () => {
-	expect(() => add("5;15;10//;\n//+\n")).toThrow("Multiple delimiter definitions found. Only one delimiter definition allowed. Example \\; followed by <enter> key and numbers")
+describe('Limit of 100x1000 check', () => {
+	/* Tests for big numbers (>1000) and large number of numbers (100) than allowed by limitation */
+	test('66 return exception for numbers exceeding 100 in size', () => {
+		expect(() => add(
+			"1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101"
+		)).toThrow("Maximum allowed limit of numbers exceeded. Limit to 100 number of numbers.")
+	});
+	test('67 return exception for big numbers (>1000)', () => {
+		expect(() => add(
+			"500,500,1000,1001"
+		)).toThrow("Big numbers (>1000) not allowed 1001")
+	});
 });

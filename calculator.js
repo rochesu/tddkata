@@ -42,6 +42,9 @@ function add(input_string) {
 	} else {
 		let numbers = number_string_array.map(Number);
 		if (numbers.length === 1) { return numbers[0]; }
+		if (numbers.length > 100) {
+			throw new Error("Maximum allowed limit of numbers exceeded. Limit to 100 number of numbers.");
+		}
 		let added_value = 0;
 		// if there are negative numbers in the number array, throw exception with the list of negative numbers separated by comma
 		// if there are no negative numbers, proceed to add the numbers and return the added value
@@ -49,6 +52,11 @@ function add(input_string) {
 		negative_numbers = numbers.filter(number => number < 0);
 		if (negative_numbers.length > 0) {
 			throw new Error("Negative numbers not allowed " + negative_numbers.join(","));
+		}
+		let big_numbers = [];
+		big_numbers = numbers.filter(number => number > 1000);
+		if (big_numbers.length > 0) {
+			throw new Error("Big numbers (>1000) not allowed " + big_numbers.join(","));
 		}
 		added_value = numbers.reduce((sum, n) => sum + n, 0);
 		return added_value;
